@@ -43,7 +43,12 @@ class MessagesController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'status' => 'required|max:10',   // 追加
+            'content' => 'required|max:191',
+        ]);
         $message = new Tasks;
+        $message->status = $request->status; 
         $message->content = $request->content;
         $message->save();
 
@@ -89,7 +94,12 @@ class MessagesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'status' => 'required|max:10',   // 追加
+            'content' => 'required|max:191',
+        ]);
         $message = Tasks::find($id);
+        $message->status = $request->status;
         $message->content = $request->content;
         $message->save();
 
