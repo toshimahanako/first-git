@@ -46,10 +46,13 @@ class MessagesController extends Controller
         $this->validate($request, [
             'status' => 'required|max:10',   // 追加
             'content' => 'required|max:191',
+            
         ]);
+        
         $message = new Tasks;
         $message->status = $request->status; 
         $message->content = $request->content;
+        $message->user_id =$request->user()->id;
         $message->save();
 
         return redirect('/');
@@ -64,10 +67,14 @@ class MessagesController extends Controller
     public function show($id)
     {
         $message = Tasks::find($id);
-
-        return view('messages.show', [
-            'message' => $message,
-        ]);
+        $user = \Auth::user();
+        if($message->user_id == $user->id){
+            return view('messages.show', [
+                'message' => $message,
+            ]);
+        }else{
+             return redirect('/');   
+        }
     }
 
     /**
