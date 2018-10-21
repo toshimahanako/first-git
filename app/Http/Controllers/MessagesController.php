@@ -52,7 +52,7 @@ class MessagesController extends Controller
         $message = new Tasks;
         $message->status = $request->status; 
         $message->content = $request->content;
-        $message->user_id =$request->user()->id;
+        $message->user_id = $request->user()->id;
         $message->save();
 
         return redirect('/');
