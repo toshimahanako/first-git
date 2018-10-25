@@ -86,10 +86,15 @@ class MessagesController extends Controller
     public function edit($id)
     {
          $message = Tasks::find($id);
-
-        return view('messages.edit', [
-            'message' => $message,
-        ]);
+         $user = \Auth::user();
+         if($message->user_id == $user->id){
+             return view('messages.edit', [
+                 'message' => $message,
+            ]);
+         }
+         else{
+             return redirect('/');
+         }
     }
 
     /**
